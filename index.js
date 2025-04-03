@@ -1,7 +1,7 @@
 import { URL } from 'node:url'
 
 const scrambledUrl = process.argv[2]
-const { host, searchParams } = new URL(scrambledUrl)
+const { host, searchParams, pathname } = new URL(scrambledUrl)
 
 if (host === 'mandrillapp.com') {
   const base64 = searchParams.get('p')
@@ -9,4 +9,10 @@ if (host === 'mandrillapp.com') {
   const { p } = JSON.parse(plaintext)
   const data = JSON.parse(p)
   console.log(`\n\n${data.url}`)
+}
+
+if (host.endsWith('awstrack.me')) {
+  const trackedUrl = pathname.replace(/\/L0\//, '')
+  const decodedUrl = decodeURIComponent(trackedUrl)
+  console.log(decodedUrl)
 }
